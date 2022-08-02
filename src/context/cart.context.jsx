@@ -9,7 +9,7 @@ export const CartContext = createContext({
 
 const addCartItem = (cartItems, productToAdd) => {
   const cartItem = cartItems.find((item) => item.id === productToAdd.id);
-  console.log("pop");
+
   let newCartArray;
 
   if (cartItem) {
@@ -37,8 +37,6 @@ export const CartProvider = ({ children }) => {
     const newCartArray = addCartItem(cartItems, productToAdd);
     setCartItems(newCartArray);
   };
-
-  console.log(cartItems);
 
   const value = {
     isOpen,
