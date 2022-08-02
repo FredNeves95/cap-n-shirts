@@ -85,7 +85,7 @@ const SignUpForm = () => {
           onChange={handleChange}
           required
         />
-        <Button type="submit">Sign Up</Button>
+        <Button type="submit">SIGN UP</Button>
       </form>
     </div>
   );
