@@ -17,7 +17,6 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
-
   const { displayName, email, password, confirmPassword } = formFields;
 
   const resetFormFields = () => setFormFields(defaultFormFields);
@@ -33,11 +32,18 @@ const SignUpForm = () => {
         email,
         password
       );
-      createUserDocumentFromAuth(user, { displayName });
+      await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        alert("Cannot create user, email already in use.");
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          alert("Cannot create user, email already in use.");
+          break;
+        case "auth/weak-password":
+          alert("Cannot create user, password is too weak.");
+          break;
+        default:
+          console.log("User creation encountered an error", error);
       }
     }
   };
