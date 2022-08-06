@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/cart.context";
+import { AUTHENTICATION_ROUTES } from "../../utils/constants";
 import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
+import { getRoute } from "../../utils/functions";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
@@ -12,8 +16,9 @@ const defaultSignInForm = {
   password: "",
 };
 const SignInForm = () => {
+  const { cartItems } = useContext(CartContext);
   const [signInForm, setSignInForm] = useState(defaultSignInForm);
-
+  const navigate = useNavigate();
   const { email, password } = signInForm;
 
   const resetSignInForm = () => setSignInForm(defaultSignInForm);
@@ -23,6 +28,8 @@ const SignInForm = () => {
     try {
       await signInAuthUserWithEmailAndPassword(email, password);
       resetSignInForm();
+      const route = getRoute(cartItems, AUTHENTICATION_ROUTES);
+      navigate(route);
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -44,6 +51,8 @@ const SignInForm = () => {
 
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
+    const route = getRoute(cartItems, AUTHENTICATION_ROUTES);
+    navigate(route);
   };
 
   return (

@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CheckoutCard from "../../components/checkout-card/checkout-card.component";
 import { CartContext } from "../../context/cart.context";
+import { UserContext } from "../../context/user.context";
 
 import {
   CheckoutContainer,
@@ -11,6 +13,15 @@ import {
 
 const Checkout = () => {
   const { cartItems } = useContext(CartContext);
+  const { currentUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   const totalPrice = cartItems.reduce(
     (acc, curr) => acc + curr.price * curr.quantity,

@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/cart.context";
+import { UserContext } from "../../context/user.context";
+import { getRoute } from "../../utils/functions";
 import Button from "../button/button.component";
 import CartItem from "../cart-item/cart-item.component";
 import {
@@ -9,14 +11,22 @@ import {
   EmptyMessage,
 } from "./cart-dropdown.styles.jsx";
 
+const CHECKOUT_ROUTES = {
+  signedIn: "/checkout",
+  signedOff: "/auth",
+};
+
 const CartDropdown = () => {
+  const { currentUser } = useContext(UserContext);
   const { cartItems, setIsOpen } = useContext(CartContext);
   const navigate = useNavigate();
 
   const goToCheckoutHandler = () => {
+    const route = getRoute(currentUser, CHECKOUT_ROUTES);
     setIsOpen(false);
-    navigate("/checkout");
+    navigate(route);
   };
+
   return (
     <CartDropdownContainer>
       <CartItems>

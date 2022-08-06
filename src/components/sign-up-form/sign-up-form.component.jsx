@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/cart.context";
+import { AUTHENTICATION_ROUTES } from "../../utils/constants";
 
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
+import { getRoute } from "../../utils/functions";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import { SignUpContainer } from "./sign-up-form.styles";
@@ -16,6 +20,8 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
+  const { cartItems } = useContext(CartContext);
+  const navigate = useNavigate();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
@@ -34,6 +40,8 @@ const SignUpForm = () => {
       );
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
+      const route = getRoute(cartItems, AUTHENTICATION_ROUTES);
+      navigate(route);
     } catch (error) {
       switch (error.code) {
         case "auth/email-already-in-use":
