@@ -19,7 +19,7 @@ const Checkout = () => {
 
   useEffect(() => {
     if (!currentUser) {
-      navigate("/");
+      navigate("/auth");
     }
   }, [currentUser, navigate]);
 

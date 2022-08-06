@@ -39,7 +39,7 @@ const CheckoutCard = ({ product }) => {
         <Value>{quantity}</Value>
         <Arrow onClick={increaseProduct}>&#10095;</Arrow>
       </ItemQuantity>
-      <ItemInfo>{price}</ItemInfo>
+      <ItemInfo>${price}</ItemInfo>
       <RemoveButton onClick={removeProduct}>&#10005;</RemoveButton>
     </CheckoutItemContainer>
   );
