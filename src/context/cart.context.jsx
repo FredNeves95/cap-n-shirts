@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
+import { createAction } from "../utils/reducer/reducer.utils";
 
 export const CartContext = createContext({
   isOpen: false,
@@ -59,23 +60,58 @@ const decreaseCartItem = (cartItems, productToDecrease) => {
   return newCartArray;
 };
 
+export const CART_ACTION_TYPES = {
+  SET_CART_ITEMS: "SET_CART_ITEMS",
+  OPEN_CART: "OPEN_CART",
+};
+
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return { ...state, ...payload };
+    case CART_ACTION_TYPES.OPEN_CART:
+      return {
+        ...state,
+        isOpen: !state.isOpen,
+      };
+    default:
+      throw new Error(`Unhandled type ${type} in cartReducer`);
+  }
+};
+
+export const INITIAL_STATE = {
+  isOpen: false,
+  cartItems: [],
+};
+
 export const CartProvider = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
+  const { isOpen, cartItems } = state;
+
+  const updateCartItemsReducer = (newCartItem) => {
+    dispatch(
+      createAction(CART_ACTION_TYPES.SET_CART_ITEMS, { cartItems: newCartItem })
+    );
+  };
+
+  const setIsOpen = () => {
+    dispatch(createAction(CART_ACTION_TYPES.OPEN_CART));
+  };
 
   const addItemsToCart = (productToAdd) => {
-    const newCartArray = addCartItem(cartItems, productToAdd);
-    setCartItems(newCartArray);
+    const newCartItems = addCartItem(state.cartItems, productToAdd);
+    updateCartItemsReducer(newCartItems);
   };
 
   const removeItemsFromCart = (productToRemove) => {
-    const newCartArray = removeCartItem(cartItems, productToRemove);
-    setCartItems(newCartArray);
+    const newCartItems = removeCartItem(state.cartItems, productToRemove);
+    updateCartItemsReducer(newCartItems);
   };
 
   const decreaseItemsFromCart = (productToDecrease) => {
-    const newCartArray = decreaseCartItem(cartItems, productToDecrease);
-    setCartItems(newCartArray);
+    const newCartItems = decreaseCartItem(state.cartItems, productToDecrease);
+    updateCartItemsReducer(newCartItems);
   };
 
   const value = {

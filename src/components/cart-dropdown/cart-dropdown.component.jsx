@@ -23,7 +23,7 @@ const CartDropdown = () => {
 
   const goToCheckoutHandler = () => {
     const route = getRoute(currentUser, CHECKOUT_ROUTES);
-    setIsOpen(false);
+    setIsOpen();
     navigate(route);
   };
 
