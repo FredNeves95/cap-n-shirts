@@ -24,7 +24,6 @@ const App = () => {
     return unsubscribe;
   }, [dispatch]);
 
-
   return (
     <Routes>
       <Route path='/' element={<Navigation />}>
