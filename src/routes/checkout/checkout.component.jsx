@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutCard from "../../components/checkout-card/checkout-card.component";
-import { CartContext } from "../../context/cart.context";
+import { selectCartItems } from "../../store/cart/cart.selector";
 
 import {
   CheckoutContainer,
@@ -12,7 +12,7 @@ import {
 } from "./checkout.styles";
 
 const Checkout = () => {
-  const { cartItems } = useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
   const currentUser = useSelector((state) => state.user.currentUser);
 
   const navigate = useNavigate();

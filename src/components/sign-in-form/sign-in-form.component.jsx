@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../../context/cart.context";
+import { selectCartItems } from "../../store/cart/cart.selector";
 import { AUTHENTICATION_ROUTES } from "../../utils/constants";
 import {
   signInAuthUserWithEmailAndPassword,
@@ -16,7 +17,7 @@ const defaultSignInForm = {
   password: "",
 };
 const SignInForm = () => {
-  const { cartItems } = useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
   const [signInForm, setSignInForm] = useState(defaultSignInForm);
   const navigate = useNavigate();
   const { email, password } = signInForm;
