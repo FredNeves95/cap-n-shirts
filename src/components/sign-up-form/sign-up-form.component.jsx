@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectCartItems } from "../../store/cart/cart.selector";
+import { signUpStart } from "../../store/user/user.action";
 import { AUTHENTICATION_ROUTES } from "../../utils/constants";
 
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
 import { getRoute } from "../../utils/functions";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
@@ -25,7 +22,7 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
-
+  const dispatch = useDispatch();
   const resetFormFields = () => setFormFields(defaultFormFields);
 
   const handleSubmit = async (event) => {
@@ -35,11 +32,7 @@ const SignUpForm = () => {
       return;
     }
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await createUserDocumentFromAuth(user, { displayName });
+      dispatch(signUpStart(email, password, displayName));
       resetFormFields();
       const route = getRoute(cartItems, AUTHENTICATION_ROUTES);
       navigate(route);

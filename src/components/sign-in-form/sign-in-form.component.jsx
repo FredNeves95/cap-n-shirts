@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectCartItems } from "../../store/cart/cart.selector";
-import { AUTHENTICATION_ROUTES } from "../../utils/constants";
 import {
-  signInAuthUserWithEmailAndPassword,
-  signInWithGooglePopup,
-} from "../../utils/firebase/firebase.utils";
+  emailSignInStart,
+  googleSignInStart,
+} from "../../store/user/user.action";
+import { AUTHENTICATION_ROUTES } from "../../utils/constants";
 import { getRoute } from "../../utils/functions";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
@@ -21,13 +22,13 @@ const SignInForm = () => {
   const [signInForm, setSignInForm] = useState(defaultSignInForm);
   const navigate = useNavigate();
   const { email, password } = signInForm;
-
+  const dispatch = useDispatch();
   const resetSignInForm = () => setSignInForm(defaultSignInForm);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
+      await dispatch(emailSignInStart(email, password));
       resetSignInForm();
       const route = getRoute(cartItems, AUTHENTICATION_ROUTES);
       navigate(route);
@@ -51,7 +52,7 @@ const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+    dispatch(googleSignInStart());
     const route = getRoute(cartItems, AUTHENTICATION_ROUTES);
     navigate(route);
   };
