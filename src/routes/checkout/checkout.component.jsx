@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutCard from "../../components/checkout-card/checkout-card.component";
+import PaymentForm from "../../components/payment-form/payment-form.component";
 import { selectCartItems } from "../../store/cart/cart.selector";
 
 import {
@@ -52,6 +53,7 @@ const Checkout = () => {
       ))}
 
       <Total>TOTAL: ${totalPrice}</Total>
+      <PaymentForm />
     </CheckoutContainer>
   );
 };
