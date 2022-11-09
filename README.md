@@ -1,3 +1,21 @@
+# Cap'n shirts
+
+This project is a simulation of a clothing store.
+
+With this, I've improved my skills with React, Redux, Context API (it was first developt with Contexts and switched to Redux later), and others.
+
+I've also learned how to configure and use firebase, stripe and some Redux libraries, such as Redux-persist and Redux-saga.
+
+Some nice features are:
+- Sign up and login
+- Login with google
+- Simulate a purchase with credit card
+
+It was a real challenge and it made me feel much more confident about my developer skills, hope you enjoy it too!
+
+## Improvement points
+- Although they're very important in a real project, there are no tests, because it was not my focus and it would take more time to develop.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
