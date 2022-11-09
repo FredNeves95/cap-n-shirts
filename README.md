@@ -2,7 +2,7 @@
 
 This project is a simulation of a clothing store.
 
-With this, I've improved my skills with React, Redux, Context API (it was first developt with Contexts and switched to Redux later), and others.
+With this, I've improved my skills with React, Redux, Context API (it was first developt with Contexts and switched to Redux later), Styled-components, SASS, and others.
 
 I've also learned how to configure and use firebase, stripe and some Redux libraries, such as Redux-persist and Redux-saga.
 
